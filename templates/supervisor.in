@@ -1,0 +1,31 @@
+[inet_http_server]
+port = 9001
+username = admin
+password = admin
+
+[unix_http_server]
+file=%(here)s/../var/supervisor.sock
+chmod=0600
+
+[supervisorctl]
+serverurl=unix://%(here)s/../var/supervisor.sock
+
+[rpcinterface:supervisor]
+supervisor.rpcinterface_factory=supervisor.rpcinterface:make_main_rpcinterface
+
+[supervisord]
+logfile=%(here)s/../var/log/supervisord.log
+logfile_maxbytes=5MB
+logfile_backups=10
+loglevel=info
+pidfile=%(here)s/../var/supervisord.pid ;
+umask = 022
+childlogdir=%(here)s/../var/log
+nodaemon=false              ; (start in foreground if true;default false)
+minfds=1024                 ; (min. avail startup file descriptors;default 1024)
+minprocs=200                ; (min. avail process descriptors;default 200)
+directory=%(here)s
+
+# Add the paths your supervisord configuration here and run bin/buildout -Nv -t 10
+#[include]
+#files=/home/cleber/project/one/supervisor.cfg /home/cleber/project/two/supervisor.cfg 
