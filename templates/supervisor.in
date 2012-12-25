@@ -1,5 +1,5 @@
 [inet_http_server]
-port = 9001
+port = 127.0.0.1:9001
 username = admin
 password = admin
 
@@ -26,6 +26,25 @@ minfds=1024                 ; (min. avail startup file descriptors;default 1024)
 minprocs=200                ; (min. avail process descriptors;default 200)
 directory=%(here)s
 
-# Add the paths your supervisord configuration here and run bin/buildout -Nv -t 10
-#[include]
-#files=/home/cleber/project/one/supervisor.cfg /home/cleber/project/two/supervisor.cfg 
+[eventlistener:memmon]
+command = %(here)s/../bin/memmon -p CLIENTENOME=900MB -m hosting+alert@simplesconsultoria.com.br
+events = TICK_60
+
+# Adicione o novo path do site aqui e rode o bin/buildout -Nv -t 10
+[include]
+files=/home/USER/supervisor.cfg
+
+# Sample supervisor.cfg to users home
+#[program:CLIENTENOME]
+#command = /home/USER/buildout/bin/instance console
+#directory = /home/USER/buildout/bin
+#redirect_stderr = true
+#autostart= true
+#autorestart = true
+#priority = 500
+#startsecs=10
+#startretries=3
+#exitcodes=0,2
+#user=USER OF SYSTEM
+#serverurl=AUTO
+

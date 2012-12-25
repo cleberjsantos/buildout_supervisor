@@ -1,0 +1,19 @@
+rotate 10
+daily
+create
+dateext
+copytruncate
+compress
+delaycompress
+notifempty
+compresscmd /bin/bzip2
+compressext .bz2
+missingok
+maxage 30
+
+${buildout:directory}/var/log/*.log {
+        sharedscripts
+        postrotate
+                [ ! -f ${buildout:directory}/var/supervisord.pid ] ||  /bin/kill -USR2 $(cat ${buildout:directory}/var/supervisord.pid)
+        endscript
+}
