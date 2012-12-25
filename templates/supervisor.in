@@ -1,38 +1,38 @@
-[inet_http_server]
-port = 127.0.0.1:9001
-username = admin
-password = admin
+[supervisord]
+childlogdir=%(here)s/../var/log
+logfile=%(here)s/../var/log/supervisord.log
+logfile_maxbytes = 5MB
+logfile_backups = 10
+loglevel = info
+pidfile=%(here)s/../var/supervisord.pid ;
+umask = 022
+nodaemon = false
+nocleanup = false
+minfds=1024
+minprocs=200
+directory=%(here)s
 
 [unix_http_server]
 file=%(here)s/../var/supervisor.sock
-chmod=0600
+username = admin
+password = admin
+chmod = 0600
 
 [supervisorctl]
 serverurl=unix://%(here)s/../var/supervisor.sock
+username = admin
+password = admin
 
 [rpcinterface:supervisor]
 supervisor.rpcinterface_factory=supervisor.rpcinterface:make_main_rpcinterface
 
-[supervisord]
-logfile=%(here)s/../var/log/supervisord.log
-logfile_maxbytes=5MB
-logfile_backups=10
-loglevel=info
-pidfile=%(here)s/../var/supervisord.pid ;
-umask = 022
-childlogdir=%(here)s/../var/log
-nodaemon=false              ; (start in foreground if true;default false)
-minfds=1024                 ; (min. avail startup file descriptors;default 1024)
-minprocs=200                ; (min. avail process descriptors;default 200)
-directory=%(here)s
-
 [eventlistener:memmon]
-command = %(here)s/../bin/memmon -p CLIENTENOME=900MB -m hosting+alert@simplesconsultoria.com.br
+command = %(here)s/../bin/memmon -a 700MB -m cleber@cleberjsantos.com.br
 events = TICK_60
 
-# Adicione o novo path do site aqui e rode o bin/buildout -Nv -t 10
-[include]
-files=/home/USER/supervisor.cfg
+# Add a new file config here and run buildout: bin/buildout -Nv -t 10
+#[include]
+#files=/home/USER/supervisor.cfg
 
 # Sample supervisor.cfg to users home
 #[program:CLIENTENOME]
